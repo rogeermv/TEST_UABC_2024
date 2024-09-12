@@ -1,6 +1,6 @@
 # Tiny Tapeout project information
 project:
-  title:        "Test-7-segmente-display"      # Project title
+  title:        "Test-7-segment-display"      # Project title
   author:       "UABC"      # Your name
   discord:      "roier"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
   description:  "Displays a message on a 7-segment display. Each letter is displayed in a time, one by one."      # One line description of what your project does
