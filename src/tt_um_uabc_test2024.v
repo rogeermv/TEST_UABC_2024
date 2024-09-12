@@ -35,10 +35,10 @@ module tt_um_uabc_test2024 (
                 display_value <= display_value + 1'b1;
 
                 // only count from 0 to 15
-                if (display_value == 4'd15) begin
+                if (display_value == 4'd15)
                     display_value <= 4'd0;
 
-            end else begin
+            end else
                 // increment counter
                 counter <= counter + 1'b1;
         end
