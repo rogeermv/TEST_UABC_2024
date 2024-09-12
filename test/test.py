@@ -9,7 +9,7 @@ from cocotb.triggers import ClockCycles
 segments = [ 63, 6, 91, 79, 102, 109, 125, 7, 127, 111, 94, 57, 118, 94, 123, 126 ]
 
 @cocotb.test()
-async def test_project(dut):
+async def test_7seg(dut):
     dut._log.info("Start")
 
     clock = Clock(dut.clk, 1, units="ms")
