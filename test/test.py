@@ -25,8 +25,10 @@ async def test_7seg(dut):
 
     dut._log.info("Test project behavior")
 
-    for i in range(15):
+    for i in range(len(segments)):
         dut._log.info("check segment {}".format(i))
         await ClockCycles(dut.clk, 1000)
-        assert int(dut.segments.value) == segments[i]
+        actual_value = int(dut.uo_out.value)
+        dut._log.info(f"Actual uo_out value: {actual_value}")
+        assert actual_value == segments[i], f"Error: Expected {segments[i]}, but got {actual_value}"
 
