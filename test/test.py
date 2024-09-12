@@ -7,34 +7,44 @@ from cocotb.triggers import ClockCycles
 
 
 @cocotb.test()
-async def test_project(dut):
-    dut._log.info("Start")
+async def test_seg7(dut):
+    dut._log.info("Start test for seg7")
 
-    # Set the clock period to 10 us (100 KHz)
+    # Configurar el periodo de reloj a 10 us (100 KHz)
     clock = Clock(dut.clk, 10, units="us")
     cocotb.start_soon(clock.start())
 
-    # Reset
+    # Resetear
     dut._log.info("Reset")
-    dut.ena.value = 1
-    dut.ui_in.value = 0
-    dut.uio_in.value = 0
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 10)
+    await ClockCycles(dut.clk, 5)
     dut.rst_n.value = 1
 
-    dut._log.info("Test project behavior")
+    dut._log.info("Begin testing digit-to-segment mapping")
 
-    # Set the input values you want to test
-    dut.ui_in.value = 20
-    dut.uio_in.value = 30
+    # Lista de casos de prueba (digito, valor esperado del segmento)
+    test_cases = [
+        (0, 0b0111111),  # A
+        (1, 0b0000110),  # b
+        (2, 0b1011011),  # C
+        (3, 0b1001111),  # d
+        (4, 0b1100110),  # E
+        (5, 0b1101101),  # F
+        (6, 0b1111101),  # G
+        (7, 0b0000111),  # H
+        (8, 0b1111111),  # I
+        (9, 0b1101111),  # J
+        (10, 0b1011110), # K
+        (11, 0b0111001), # L
+        (12, 0b1110110), # M
+        (13, 0b1011110), # N
+        (14, 0b1111011), # O
+        (15, 0b1111110), # P
+    ]
 
-    # Wait for one clock cycle to see the output values
-    await ClockCycles(dut.clk, 1)
+    for digit, expected in test_cases:
+        dut.digit.value = digit
+        await ClockCycles(dut.clk, 1)
+        assert dut.segments.value == expected, f"Test failed for digit {digit}: expected {bin(expected)}, got {bin(dut.segments.value)}"
 
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    # assert dut.uo_out.value == 50
-
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
+    dut._log.info("All tests passed!")
