@@ -16,13 +16,11 @@ module tt_um_uabc_test2024 (
     input  wire       rst_n     // reset_n - low to reset
 );
     
-    reg [23:0] counter;          // 25-bit counter to create 1-second delay
-    reg [3:0]  display_value;    // Value to display
-    reg [6:0]  segment_reg;      // Register to store the current segment value
+    reg [23:0] counter;          
+    reg [3:0]  display_value;    
+    reg [6:0]  segment_reg;      
 
-  // Counter for 1-second delay
     always @(posedge clk or negedge rst_n) begin
-        // if reset, set counter to 0
         if (!rst_n) begin
             counter <= 24'd0;
             display_value <= 4'd0;
@@ -33,20 +31,17 @@ module tt_um_uabc_test2024 (
             if (display_value == 4'd15) begin
                 display_value <= 4'd0;
             end
-
         end else begin
             counter <= counter + 1'b1;
         end
     end
 
-
     seg7 seg7(.digit(display_value), .segments(segment_reg));
     
-  assign uo_out = segment_reg; // Output segment data to display
-  assign uio_out = 0; // Ensure that unused IO outputs are zero
-  assign uio_oe = 8'hFF; // Enable all IOs for output
+  assign uo_out = segment_reg; 
+  assign uio_out = 0; 
+  assign uio_oe = 8'hFF; 
 
   // List all unused inputs to prevent warnings
   //wire _unused = &{ena, clk, rst_n, 1'b0};
-
 endmodule
