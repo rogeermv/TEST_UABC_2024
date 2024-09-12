@@ -50,7 +50,7 @@ async def test_7seg(dut):
         await ClockCycles(dut.clk, 1000)
 
         # Convert the binary vector to decimal
-        binary_value = binary_vectors[i]
+        binary_value = binary[i]
         expected_decimal = segments[i]
         converted_decimal = int(binary_value, 2)
 
