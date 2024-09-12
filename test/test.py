@@ -11,7 +11,7 @@ segments = [ 63, 6, 91, 79, 102, 109, 125, 7, 127, 111, 94, 57, 118, 94, 123, 12
 async def test_7seg(dut):
     dut._log.info("Start")
 
-    clock = Clock(dut.clk, 1, units="ms")
+    clock = Clock(dut.clk, 0.1, units="us")
     cocotb.start_soon(clock.start())
 
     # Reset
