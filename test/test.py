@@ -11,7 +11,7 @@ segments = [ 63, 6, 91, 79, 102, 109, 125, 7, 127, 111, 94, 57, 118, 94, 123, 12
 async def test_7seg(dut):
     dut._log.info("Start")
 
-    clock = Clock(dut.clk, 100, units="ns")
+    clock = Clock(dut.clk, 1, units="ms")
     cocotb.start_soon(clock.start())
 
     # Reset
@@ -27,6 +27,6 @@ async def test_7seg(dut):
 
     for i in range(15):
         dut._log.info("check segment {}".format(i))
-        await ClockCycles(dut.clk, 1)
-        assert int(dut.uo_out.value) == segments[i]
+        await ClockCycles(dut.clk, 1000)
+        assert int(dut.segments.value) == segments[i]
 
