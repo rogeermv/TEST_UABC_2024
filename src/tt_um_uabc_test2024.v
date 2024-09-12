@@ -39,29 +39,9 @@ module tt_um_uabc_test2024 (
         end
     end
 
-  // Assign letters and numbers in binary to uo_out
-    always @(*) begin
-        case (display_value)
-            4'd0: segment_reg = 7'b0111111; // A
-            4'd1: segment_reg = 7'b0000110; // b
-            4'd2: segment_reg = 7'b1011011; // C
-            4'd3: segment_reg = 7'b1001111; // d
-            4'd4: segment_reg = 7'b1100110; // E
-            4'd5: segment_reg = 7'b1101101; // F
-            4'd6: segment_reg = 7'b1111101; // G
-            4'd7: segment_reg = 7'b0000111; // H
-            4'd8: segment_reg = 7'b1111111; // I
-            4'd9: segment_reg = 7'b1101111; // J
-            4'd10: segment_reg = 7'b1011110; // K
-            4'd11: segment_reg = 7'b0111001; // L
-            4'd12: segment_reg = 7'b1110110; // M
-            4'd13: segment_reg = 7'b1011110; // N
-            4'd14: segment_reg = 7'b1111011; // O
-            4'd15: segment_reg = 7'b1111110; // P
-        default: segment_reg = 7'b0000000; // Blank (off)
-    endcase
-  end
 
+    seg7 seg7(.digit(display_value), .segments(segment_reg));
+    
   assign uo_out = segment_reg; // Output segment data to display
   assign uio_out = 0; // Ensure that unused IO outputs are zero
   assign uio_oe = 8'hFF; // Enable all IOs for output
