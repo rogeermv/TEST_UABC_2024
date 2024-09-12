@@ -6,13 +6,13 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 
+segments = [ 63, 6, 91, 79, 102, 109, 125, 7, 127, 111, 94, 57, 118, 94, 123, 126 ]
 
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
 
-    # Set the clock period to 10 us (100 KHz)
-    clock = Clock(dut.clk, 10, units="us")
+    clock = Clock(dut.clk, 1, units="ms")
     cocotb.start_soon(clock.start())
 
     # Reset
@@ -26,12 +26,10 @@ async def test_project(dut):
 
     dut._log.info("Test project behavior")
 
-    # Wait for one clock cycle to see the output values
-    await ClockCycles(dut.clk, 1)
+    for i in range(15):
+        dut._log.info("check segment {}".format(i))
+        await ClockCycles(dut.clk, 1000)
+        assert int(dut.segments.value) == segments[i]
 
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    # assert dut.uo_out.value == 50
-
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
+        # all bidirectionals are set to output
+        assert dut.uio_oe == 0xFF
