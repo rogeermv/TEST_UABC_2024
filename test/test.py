@@ -27,8 +27,8 @@ async def test_7seg(dut):
 
     for i in range(15):
         dut._log.info("check segment {}".format(i))
-        await ClockCycles(dut.clk, 1000)
-        assert int(dut.seg.value) == segments[i % 10]
+        await ClockCycles(dut.clk, 10000000)
+        assert int(dut.seg.value) == segments[i]
         
         # all bidirectionals are set to output
         assert dut.uio_oe == 0xFF
