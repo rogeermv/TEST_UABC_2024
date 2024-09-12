@@ -16,7 +16,7 @@ module tt_um_uabc_test2024 (
     input  wire       rst_n     // reset_n - low to reset
 );
     
-    reg [24:0] counter;          // 25-bit counter to create 1-second delay
+    reg [23:0] counter;          // 25-bit counter to create 1-second delay
     reg [3:0]  display_value;    // Value to display
     reg [6:0]  segment_reg;      // Register to store the current segment value
 
@@ -24,21 +24,21 @@ module tt_um_uabc_test2024 (
     always @(posedge clk or negedge rst_n) begin
         // if reset, set counter to 0
         if (!rst_n) begin
-            counter <= 25'd0;
+            counter <= 24'd0;
             display_value <= 4'd0;
         end else begin
-            if (counter == 25_000_000) begin
+            if (counter == 24'd10000000) begin
                 // reset
-                counter <= 25'd0;
+                counter <= 24'd0;
 
                 // increment digit
                 display_value <= display_value + 1'b1;
 
                 // only count from 0 to 15
-                if (display_value == 4'd15)
+                if (display_value == 4'd15) begin
                     display_value <= 4'd0;
 
-            end else
+            end else begin
                 // increment counter
                 counter <= counter + 1'b1;
         end
