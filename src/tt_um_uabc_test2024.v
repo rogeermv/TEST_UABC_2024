@@ -22,14 +22,25 @@ module tt_um_uabc_test2024 (
 
   // Counter for 1-second delay
     always @(posedge clk or negedge rst_n) begin
+        // if reset, set counter to 0
         if (!rst_n) begin
             counter <= 25'd0;
             display_value <= 4'd0;
-        end else if (counter == 25_000_000) begin
-            counter <= 25'd0;               // Reset counter every second
-            display_value <= display_value + 1; // Increment display value
         end else begin
-            counter <= counter + 1; // Increment counter
+            if (counter == 25_000_000) begin
+                // reset
+                counter <= 25'd0;
+
+                // increment digit
+                display_value <= display_value + 1'b1;
+
+                // only count from 0 to 15
+                if (display_value == 4'd15)
+                    display_value <= 4'd0;
+
+            end else
+                // increment counter
+                counter <= counter + 1'b1;
         end
     end
 
