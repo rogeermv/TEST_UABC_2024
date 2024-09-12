@@ -26,21 +26,16 @@ module tt_um_uabc_test2024 (
         if (!rst_n) begin
             counter <= 24'd0;
             display_value <= 4'd0;
+        end else if (counter == 24'd10000000) begin
+            counter <= 24'd0;
+            display_value <= display_value + 1'b1;
+            
+            if (display_value == 4'd15) begin
+                display_value <= 4'd0;
+            end
+
         end else begin
-            if (counter == 24'd10000000) begin
-                // reset
-                counter <= 24'd0;
-
-                // increment digit
-                display_value <= display_value + 1'b1;
-
-                // only count from 0 to 15
-                if (display_value == 4'd15)
-                    display_value <= 4'd0;
-
-            end else
-                // increment counter
-                counter <= counter + 1'b1;
+            counter <= counter + 1'b1;
         end
     end
 
