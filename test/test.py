@@ -10,14 +10,13 @@ from cocotb.triggers import ClockCycles
 async def test_seg7(dut):
     dut._log.info("Start test for seg7")
 
-    # Configurar el periodo de reloj a 10 us (100 KHz)
-    clock = Clock(dut.clk, 10, units="us")
+    clock = Clock(dut.clk, 1, units="ms")
     cocotb.start_soon(clock.start())
 
     # Resetear
     dut._log.info("Reset")
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 5)
+    await ClockCycles(dut.clk, 1000)
     dut.rst_n.value = 1
 
     dut._log.info("Begin testing digit-to-segment mapping")
@@ -44,7 +43,7 @@ async def test_seg7(dut):
 
     for digit, expected in test_cases:
         dut.digit.value = digit
-        await ClockCycles(dut.clk, 1)
+        await ClockCycles(dut.clk, 1000)
         assert dut.segments.value == expected, f"Test failed for digit {digit}: expected {bin(expected)}, got {bin(dut.segments.value)}"
 
     dut._log.info("All tests passed!")
