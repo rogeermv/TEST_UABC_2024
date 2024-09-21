@@ -20,7 +20,7 @@ module tt_um_uabc_test2024 (
     reg [3:0]  display_value;    
     reg [6:0]  segment_reg;      
 
-    always @(posedge clk or negedge rst_n) begin
+    always @(posedge clk) begin
         if (!rst_n) begin
             counter <= 24'd0;
             display_value <= 4'd0;
